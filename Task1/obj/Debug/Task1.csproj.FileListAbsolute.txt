@@ -1,0 +1,7 @@
+D:\GitHub\Neural Networks\Task1\bin\Debug\Task1.exe.config
+D:\GitHub\Neural Networks\Task1\bin\Debug\Task1.exe
+D:\GitHub\Neural Networks\Task1\bin\Debug\Task1.pdb
+D:\GitHub\Neural Networks\Task1\obj\Debug\Task1.csprojResolveAssemblyReference.cache
+D:\GitHub\Neural Networks\Task1\obj\Debug\Task1.csproj.CoreCompileInputs.cache
+D:\GitHub\Neural Networks\Task1\obj\Debug\Task1.exe
+D:\GitHub\Neural Networks\Task1\obj\Debug\Task1.pdb
