@@ -100,7 +100,7 @@ namespace Task1
                 }
                 else
                 {
-                    Console.WriteLine("******Neuron 2.************************************");
+                    Console.WriteLine("******Neuron 3.************************************");
                     matrixDisplay(matrix, 3, 1,index);
                     if (matrix[2, 0] > 0)
                     {
