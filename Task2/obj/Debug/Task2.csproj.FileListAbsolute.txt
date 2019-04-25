@@ -1,0 +1,7 @@
+D:\GitHub\Neural Networks\Task2\bin\Debug\Task2.exe.config
+D:\GitHub\Neural Networks\Task2\bin\Debug\Task2.exe
+D:\GitHub\Neural Networks\Task2\bin\Debug\Task2.pdb
+D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.csprojResolveAssemblyReference.cache
+D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.csproj.CoreCompileInputs.cache
+D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.exe
+D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.pdb
