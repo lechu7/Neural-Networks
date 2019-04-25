@@ -111,7 +111,7 @@ namespace Task1
                         xInput[2] = -1;
                     }
                 }
-                Console.WriteLine("x("+index+")=["+ xInput[1]+","+xInput[2]+"]");
+                Console.WriteLine("x("+index+ ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
                 if (index % 3 == 0)
                 {
                     Console.WriteLine("===================================================");
