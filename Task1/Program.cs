@@ -92,7 +92,7 @@ namespace Task1
 
 
             int index = 1;
-
+            int neuron = 0;
             
             while (true)
             {
@@ -101,6 +101,7 @@ namespace Task1
 
                 if (index % 3 == 1)
                 {
+                    neuron = 1;
                     Console.WriteLine("******Neuron 1.************************************");
                     matrixDisplay(matrix, 3,  index);
                     if (matrix[0] > 0)
@@ -114,6 +115,7 @@ namespace Task1
                 }
                 else if (index%3==2)
                 {
+                    neuron = 2;
                     Console.WriteLine("******Neuron 2.************************************");
                     matrixDisplay(matrix, 3,index);
                     if (matrix[1]>0)
@@ -127,6 +129,7 @@ namespace Task1
                 }
                 else
                 {
+                    neuron = 3;
                     Console.WriteLine("******Neuron 3.************************************");
                     matrixDisplay(matrix, 3, index);
                     if (matrix[2] > 0)
@@ -139,25 +142,35 @@ namespace Task1
                     }
                 }
                 listOutputX0.Add(new int[] { xInput[0], xInput[1], xInput[2] });
+                if (listOutputX0.Count > 3)
+                {
+                    listOutputX0.RemoveAt(0);
+                }
+
                 Console.WriteLine("x("+index+ ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
+
+                if (index > 3 && compareList(listOutputX0,listOutputX1))//Sprawdza czy sieć stabilizuje się
+                {
+                    Console.WriteLine("\nStable network!");
+                    Console.ReadKey();
+                    break;
+
+                }
+                else
+                {
+                    listOutputX1.Add(new int[] { xInput[0], xInput[1], xInput[2] });
+                    if (listOutputX1.Count>3)
+                    {
+                        listOutputX1.RemoveAt(0);
+                    }
+                }
                 if (index % 3 == 0)
                 {
-                    if (index>3 && compareList(listOutputX1 , listOutputX0))//Sprawdza czy sieć stabilizuje się
-                    {
-                        Console.WriteLine("Stable network!");
-                        Console.ReadKey();
-                        break;
 
-                    }
-                    else
-                    {
-                        listOutputX1 = listOutputX0;
-                        listOutputX0 = new List<int[]>();
-                    }
                     Console.WriteLine("===================================================");
                 }
                 index++;
-                Console.ReadKey();
+                //Console.ReadKey();
             }
 
 
