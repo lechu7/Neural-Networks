@@ -170,7 +170,7 @@ namespace Task1
                     Console.WriteLine("===================================================");
                 }
                 index++;
-                //Console.ReadKey();
+                Console.ReadKey();
             }
 
 
