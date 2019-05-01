@@ -27,12 +27,28 @@ namespace Task1
                 int k = 0;
                 for (k = 0; k < 3; k++)
                 {
-                    sum += matrix1[i, k] * matrix2[i];
+                    sum += matrix1[i, k] * matrix2[k];
                 }
                 matrixProduct[i] = Math.Round(sum,3);
 
             }
             return matrixProduct;
+        }
+        public static bool compareList(List<int[]>list1, List<int[]> list2)
+        {
+            bool returnValue = true;
+            for (int i = 0; i < list1.Count; i++)
+            {
+                for (int k = 0; k < list1[i].Length; k++)
+                {
+                    if (list1[i][k]!= list2[i][k])
+                    {
+                        returnValue = false;
+                    }
+                }
+            }
+
+            return returnValue;
         }
 
         static void Main(string[] args)
@@ -122,11 +138,11 @@ namespace Task1
                         xInput[2] = -1;
                     }
                 }
-                listOutputX0.Add(xInput);
+                listOutputX0.Add(new int[] { xInput[0], xInput[1], xInput[2] });
                 Console.WriteLine("x("+index+ ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
                 if (index % 3 == 0)
                 {
-                    if (index>3 && listOutputX1 == listOutputX0)//Sprawdza czy sieć stabilizuje się
+                    if (index>3 && compareList(listOutputX1 , listOutputX0))//Sprawdza czy sieć stabilizuje się
                     {
                         Console.WriteLine("Stable network!");
                         Console.ReadKey();
