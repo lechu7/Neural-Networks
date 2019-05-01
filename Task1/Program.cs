@@ -38,27 +38,27 @@ namespace Task1
         static void Main(string[] args)
         {
 
-            double wartosc;
-            wartosc = (double)2 / (double)3;
+            double value;
+            value = (double)2 / (double)3;// problem z waga 2/3 i -2/3
 
             double[,] weights = new double[3, 3];
             weights[0, 0] = 0;
-            weights[0, 1] = -wartosc;
-            weights[0, 2] =wartosc;//
+            weights[0, 1] = -value;
+            weights[0, 2] =value;//+
 
-            weights[1, 0] = -wartosc;
+            weights[1, 0] = -value;
             weights[1, 1] = 0;
-            weights[1, 2] = -wartosc;
+            weights[1, 2] = -value;
 
-            weights[2, 0] = wartosc;//
-            weights[2, 1] = -wartosc;
+            weights[2, 0] = value;//+
+            weights[2, 1] = -value;
             weights[2, 2] = 0;
 
 
             int[] xInput = new int[3];
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)//Dodawanie wektora z klawiatury
             {
-                Console.WriteLine("The value of the vector on the index:"+i);
+                Console.WriteLine("The value of the vector on the index: "+i);
                 string x = Console.ReadLine();
                 if (x=="1"||x=="-1")
                 {
@@ -70,8 +70,8 @@ namespace Task1
                     i--;
                 }
             }
-            List<int[]> listOutputX0 = new List<int[]>();
-            List<int[]> listOutputX1 = new List<int[]>();
+            List<int[]> listOutputX0 = new List<int[]>();//Aktualna lista
+            List<int[]> listOutputX1 = new List<int[]>();//Lista wektorow z poprzednich trzech iteracji
 
 
 
@@ -80,7 +80,7 @@ namespace Task1
             
             while (true)
             {
-                Console.WriteLine("******Asynchronous step number: " + index + ".*****************");
+                Console.WriteLine("******Asynchronous step number: " + index + "*****************");
                 double [] matrix=matrixProduct(weights, xInput);
 
                 if (index % 3 == 1)
@@ -126,9 +126,9 @@ namespace Task1
                 Console.WriteLine("x("+index+ ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
                 if (index % 3 == 0)
                 {
-                    if (index>3 && listOutputX1 == listOutputX0)
+                    if (index>3 && listOutputX1 == listOutputX0)//Sprawdza czy sieć stabilizuje się
                     {
-                        Console.WriteLine("Znaleziono odowiednie wektory.");
+                        Console.WriteLine("Stable network!");
                         Console.ReadKey();
                         break;
 
