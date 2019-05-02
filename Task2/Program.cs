@@ -91,13 +91,14 @@ namespace Task2
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Which parameters you choose (i/ii/c[xor])?");
+            Console.WriteLine("Which parameters you choose (i/ii/b/c[xor])?");
             string parameters = Console.ReadLine();
 
             double ro;
             double[] weights = new double[] { 0, 0, 0 };
             ro = 0;
             bool xor = false;
+            bool b = false;
             switch (parameters)
             {
                 case "i":
@@ -108,6 +109,10 @@ namespace Task2
                     ro = 0.1;
                     weights = new double[] { -0.12, 0.4, 0.65 };
                     break;
+                case "b":
+                    //ToDo
+                    b = true;
+                break;
                 case "c":
                     ro = 1;
                     weights = new double[] { 1, 1};
