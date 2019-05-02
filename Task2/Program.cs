@@ -135,6 +135,15 @@ namespace Task2
 
             List<double[]> listOutputX0 = new List<double[]>();//Aktualna lista
             List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzednich trzech iteracji
+            listOutputX0.Add(new double[] { 0, 0, 0 });
+            listOutputX0.Add(new double[] { 0, 0, 0 });
+            listOutputX0.Add(new double[] { 0, 0, 0 });
+            listOutputX0.Add(new double[] { 0, 0, 0 });
+
+            listOutputX1.Add(new double[] { 0, 0, 0 });
+            listOutputX1.Add(new double[] { 0, 0, 0 });
+            listOutputX1.Add(new double[] { 0, 0, 0 });
+            listOutputX1.Add(new double[] { 0, 0, 0 });
 
             double wx;
             int indexGlobal = 0;
@@ -159,11 +168,8 @@ namespace Task2
                 weights = matrixSum(matrixMultiplier((ro * (d[index] - wx)), weights), trains[index]);
                 matrixDisplay(weights, indexGlobal);
 
-                listOutputX0.Add(new double[] { weights[0], weights[1], weights[2] });
-                if (listOutputX0.Count > 4)
-                {
-                    listOutputX0.RemoveAt(0);
-                }
+                listOutputX0[index]=(new double[] { weights[0], weights[1], weights[2] });
+
                 if (indexGlobal > 4 && compareList(listOutputX0, listOutputX1))
                 {
                     Console.WriteLine("\nWeight stabilization!");
@@ -172,11 +178,8 @@ namespace Task2
                 }
                 else
                 {
-                    listOutputX1.Add(new double[] { weights[0], weights[1], weights[2] });
-                    if (listOutputX1.Count > 4)
-                    {
-                        listOutputX1.RemoveAt(0);
-                    }
+                    listOutputX1[index] = (new double[] { weights[0], weights[1], weights[2] });
+
                 }
 
 

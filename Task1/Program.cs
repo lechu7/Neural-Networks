@@ -87,8 +87,13 @@ namespace Task1
                 }
             }
             List<int[]> listOutputX0 = new List<int[]>();//Aktualna lista
+            listOutputX0.Add(new int[] { 0, 0, 0 });
+            listOutputX0.Add(new int[] { 0, 0, 0 });
+            listOutputX0.Add(new int[] { 0, 0, 0 });
             List<int[]> listOutputX1 = new List<int[]>();//Lista wektorow z poprzednich iteracji
-
+            listOutputX1.Add(new int[] { 0, 0, 0 });
+            listOutputX1.Add(new int[] { 0, 0, 0 });
+            listOutputX1.Add(new int[] { 0, 0, 0 });
 
 
             int index = 1;
@@ -141,11 +146,7 @@ namespace Task1
                         xInput[2] = -1;
                     }
                 }
-                listOutputX0.Add(new int[] { xInput[0], xInput[1], xInput[2] });
-                if (listOutputX0.Count > 3)
-                {
-                    listOutputX0.RemoveAt(0);
-                }
+                listOutputX0[neuron-1]=(new int[] { xInput[0], xInput[1], xInput[2] });
 
                 Console.WriteLine("x("+index+ ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
 
@@ -158,11 +159,7 @@ namespace Task1
                 }
                 else
                 {
-                    listOutputX1.Add(new int[] { xInput[0], xInput[1], xInput[2] });
-                    if (listOutputX1.Count>3)
-                    {
-                        listOutputX1.RemoveAt(0);
-                    }
+                    listOutputX1[neuron - 1] = (new int[] { xInput[0], xInput[1], xInput[2] });
                 }
                 if (index % 3 == 0)
                 {
