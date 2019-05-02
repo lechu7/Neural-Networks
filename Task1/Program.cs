@@ -87,7 +87,7 @@ namespace Task1
                 }
             }
             List<int[]> listOutputX0 = new List<int[]>();//Aktualna lista
-            List<int[]> listOutputX1 = new List<int[]>();//Lista wektorow z poprzednich trzech iteracji
+            List<int[]> listOutputX1 = new List<int[]>();//Lista wektorow z poprzednich iteracji
 
 
 
@@ -170,12 +170,9 @@ namespace Task1
                     Console.WriteLine("===================================================");
                 }
                 index++;
+
                 Console.ReadKey();
             }
-
-
-
-
         }
     }
 
