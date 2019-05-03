@@ -8,7 +8,7 @@ namespace Task2
 {
     class Program
     {
-        public static void matrixDisplay(double[] matrix, int U)
+        public static void MatrixDisplay(double[] matrix, int U)
         {
             Console.WriteLine("w(" + U + ")=");
             for (int i = 0; i < matrix.Length; i++)
@@ -17,7 +17,7 @@ namespace Task2
                 Console.WriteLine();
             }
         }
-        public static double scalarMultiplication(double[] matrix1, double[] matrix2)
+        public static double ScalarMultiplication(double[] matrix1, double[] matrix2)
         {
             //mnożenie macierzy skalarne
             double sum = 0;
@@ -28,18 +28,8 @@ namespace Task2
             }
             return sum;
         }
-        public static double[] matrixProduct(double[] matrix1, double[] matrix2)
-        {
-            //mnożenie macierzy 
-            double[] returnTable = new double[matrix1.Length];
-            for (int i = 0; i < matrix1.Length; i++)
-            {
-                returnTable[i] = matrix1[i] * matrix2[i];
 
-            }
-            return returnTable;
-        }
-        public static double[] matrixSum(double[] matrix1, double[] matrix2)
+        public static double[] MatrixAdd(double[] matrix1, double[] matrix2)
         {
             //dodawanie macierzy
             double[] sum = new double[matrix1.Length];
@@ -50,9 +40,10 @@ namespace Task2
             }
             return sum;
         }
-        public static double[] matrixSumDouble(double x, double[] matrix2)
+
+        public static double[] MatrixAddDouble(double x, double[] matrix2)
         {
-            //dodawanie double macierzy - liczba
+            //dodanie liczby do macierzy
             double[] sum = new double[3];
             for (int i = 0; i < 3; i++)
             {
@@ -61,7 +52,8 @@ namespace Task2
             }
             return sum;
         }
-        public static double[] matrixMultiplier(double multipler, double[] matrix2)
+        
+        public static double[] MatrixMultiplierDouble(double multipler, double[] matrix2)
         {
             //mnożenie macierzy przez liczbe
             double[] returnTable = new double[matrix2.Length];
@@ -72,31 +64,53 @@ namespace Task2
             }
             return returnTable;
         }
-        public static bool compareList(List<double[]> list1, List<double[]> list2)
+        public static void CheckList(List<double[]> list)
         {
-            bool returnValue = true;
-            for (int i = 0; i < list1.Count; i++)
+            for (int i = 1; i < list.Count; i++)
             {
-                for (int k = 0; k < list1[i].Length; k++)
+                if (!CompareVerse(list[0],list[i]))
                 {
-                    if (list1[i][k] != list2[i][k])
-                    {
-                        returnValue = false;
-                    }
+                    Console.WriteLine("\n Find cycle but perceptron does not stabilize!");
+                    Console.ReadKey();
+                    return;
                 }
             }
 
-            return returnValue;
+            Console.WriteLine("\nPerceptron stabilize!");
+            Console.ReadKey();
+            return;
         }
+
+        public static bool CompareVerse(double[] verse1, double[] verse2)
+        {
+            for (int i = 0; i < verse1.Length; i++)
+            {
+                if (verse1[i] != verse2[i])
+                {
+                    return false;
+                }
+            }         
+            return true;
+        }
+
+        public static bool FindCycle(List<double[]> list1, double[] oldValue)
+        {
+            if (list1[0] != oldValue)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        //Main 
 
         static void Main(string[] args)
         {
             Console.WriteLine("Which parameters you choose (i/ii/b/c[xor])?");
             string parameters = Console.ReadLine();
 
-            double ro;
+            double ro = 0;
             double[] weights = new double[] { 0, 0, 0 };
-            ro = 0;
             bool xor = false;
             bool b = false;
             switch (parameters)
@@ -115,7 +129,7 @@ namespace Task2
                 break;
                 case "c":
                     ro = 1;
-                    weights = new double[] { 1, 1};
+                    weights = new double[] { 1,1, 1};
                     xor = true;
                     break;
                 default:
@@ -124,18 +138,14 @@ namespace Task2
                     Environment.Exit(0);
                     break;
             }
+
             //Wektory trenujące
             double[] trainsX1 = new double[] { 1, 0, 0 };
             double[] trainsX2 = new double[] { 1, 0, 1 };
             double[] trainsX3 = new double[] { 1, 1, 0 };
             double[] trainsX4 = new double[] { 1, 1, 1 };
-            if (xor==true)
-            {
-                trainsX1 = new double[] { 0, 0};
-                trainsX2 = new double[] { 0, 1 };
-                trainsX3 = new double[] { 1, 0 };
-                trainsX4 = new double[] { 1, 1 };
-            }
+
+
             List<double[]> trains = new List<double[]>();//lista wektorow trenujacych
             trains.Add(trainsX1);
             trains.Add(trainsX2);
@@ -152,40 +162,13 @@ namespace Task2
                 dX3 = 1;
                 dX4 = 0;
             }
-            List<double> d = new List<double>();//lista d
-            d.Add(dX1);
-            d.Add(dX2);
-            d.Add(dX3);
-            d.Add(dX4);
+            List<double> d = new List<double> { dX1,dX2,dX3,dX4};//lista wartosci d
 
             List<double[]> listOutputX0 = new List<double[]>();//Aktualna lista
-            List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzednich trzech iteracji
-            if (xor == false)
-            {
-                listOutputX0.Add(new double[] { 0, 0, 0 });
-                listOutputX0.Add(new double[] { 0, 0, 0 });
-                listOutputX0.Add(new double[] { 0, 0, 0 });
-                listOutputX0.Add(new double[] { 0, 0, 0 });
+            List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzedniej iteracji
+            
 
-                listOutputX1.Add(new double[] { 0, 0, 0 });
-                listOutputX1.Add(new double[] { 0, 0, 0 });
-                listOutputX1.Add(new double[] { 0, 0, 0 });
-                listOutputX1.Add(new double[] { 0, 0, 0 });
-            }
-            else
-            {
-                listOutputX0.Add(new double[] { 0, 0 });
-                listOutputX0.Add(new double[] { 0, 0 });
-                listOutputX0.Add(new double[] { 0, 0 });
-                listOutputX0.Add(new double[] { 0, 0 });
-
-                listOutputX1.Add(new double[] { 0, 0 });
-                listOutputX1.Add(new double[] { 0, 0});
-                listOutputX1.Add(new double[] { 0, 0});
-                listOutputX1.Add(new double[] { 0, 0 });
-            }
-
-            double wx;
+            double yn;
             int indexGlobal = 0;
             int index = 0;
             Console.WriteLine();
@@ -193,45 +176,31 @@ namespace Task2
             while (true)
             {
                 Console.WriteLine("*****Training vector: " + (index + 1) + ", iteration: " + (indexGlobal + 1) + "*****");
-                wx = scalarMultiplication(weights, trains[index]);
-                Console.WriteLine("y(" + indexGlobal + ")=" + wx);
-                if (wx > 0)
+                // obliczanie wartosci y dla n-tego elementu
+                yn = ScalarMultiplication(weights, trains[index]);
+                Console.WriteLine("y(" + indexGlobal + ")=" + yn);
+                if (yn > 0)
                 {
-                    wx = 1;
+                    yn = 1;
                 }
                 else
                 {
-                    wx = 0;
+                    yn = 0;
                 }
 
                 //weights(x+1)=weights(x)+ro(d(x)-y(x))*x(x)
-                weights = matrixSum(matrixMultiplier((ro * (d[index] - wx)), weights), trains[index]);
-                matrixDisplay(weights, indexGlobal);
-                if (xor == false)
-                {
-                    listOutputX0[index] = (new double[] { weights[0], weights[1], weights[2] });
-                }
-                else
-                {
-                    listOutputX0[index] = (new double[] { weights[0], weights[1] });
-                }
-                if (indexGlobal > 4 && compareList(listOutputX0, listOutputX1))
-                {
-                    Console.WriteLine("\nWeight stabilization!");
-                    Console.ReadKey();
-                    break;
-                }
-                else
+                weights = MatrixAdd(MatrixMultiplierDouble((ro * (d[index] - yn)), trains[index] ), weights);
+                MatrixDisplay(weights, indexGlobal);
 
+                listOutputX0.Add(new double[] { weights[0], weights[1], weights[2] });
+                
+                
+                if (indexGlobal >= 4 && CompareVerse( listOutputX0[index],listOutputX1[index]))
                 {
-                    if (xor == false)
-                    {
-                        listOutputX1[index] = (new double[] { weights[0], weights[1], weights[2] });
-                    }
-                    else
-                    {
-                        listOutputX1[index] = (new double[] { weights[0], weights[1] });
-                    }
+                    listOutputX1.AddRange(listOutputX0);
+                    listOutputX1.RemoveRange(0, index);
+                    CheckList(listOutputX1);
+                    break;
                 }
 
 
@@ -239,6 +208,8 @@ namespace Task2
                 index++;
                 if (index == 4)
                 {
+                    listOutputX1 = listOutputX0;
+                    listOutputX0 = new List<double[]>();
                     index = 0;
                     Console.WriteLine("===================================================");
                 }

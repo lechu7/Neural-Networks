@@ -5,3 +5,10 @@ D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.csprojResolveAssemblyReference.c
 D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.csproj.CoreCompileInputs.cache
 D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.exe
 D:\GitHub\Neural Networks\Task2\obj\Debug\Task2.pdb
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\bin\Debug\Task2.exe.config
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\bin\Debug\Task2.exe
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\bin\Debug\Task2.pdb
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\obj\Debug\Task2.csprojAssemblyReference.cache
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\obj\Debug\Task2.csproj.CoreCompileInputs.cache
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\obj\Debug\Task2.exe
+C:\Users\VOBIS\Documents\GitHub\Neural-Networks\Task2\obj\Debug\Task2.pdb

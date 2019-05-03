@@ -8,16 +8,17 @@ namespace Task1
 {
     class Program
     {
-        public static void matrixDisplay(double[] matrix, int maxMatrixX, int U)
+        public static void MatrixDisplay(double[] matrix, int U)
         {
-            Console.WriteLine("u("+U+")=");
-            for (int i = 0; i < maxMatrixX; i++)
+            Console.WriteLine("w(" + U + ")=");
+            for (int i = 0; i < matrix.Length; i++)
             {
-                Console.Write("\t"+matrix[i].ToString() + " ");
+                Console.Write("\t" + matrix[i].ToString() + " ");
                 Console.WriteLine();
             }
         }
-        public static double[] matrixProduct(double[,] matrix1, int[] matrix2)
+
+        public static double[] MatrixTimesVector(double[,] matrix1, double[] matrix2)
         {
             //mnożenie macierzy przez wektor
             double[] matrixProduct = new double[3];
@@ -29,33 +30,57 @@ namespace Task1
                 {
                     sum += matrix1[i, k] * matrix2[k];
                 }
-                matrixProduct[i] = Math.Round(sum,3);
+                matrixProduct[i] = Math.Round(sum, 3);
 
             }
             return matrixProduct;
         }
-        public static bool compareList(List<int[]>list1, List<int[]> list2)
+
+
+        public static bool CompareVerse(double[] verse1, double[] verse2)
         {
-            bool returnValue = true;
-            for (int i = 0; i < list1.Count; i++)
+            for (int i = 0; i < verse1.Length; i++)
             {
-                for (int k = 0; k < list1[i].Length; k++)
+                if (verse1[i] != verse2[i])
                 {
-                    if (list1[i][k]!= list2[i][k])
-                    {
-                        returnValue = false;
-                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool FindCycle(List<double[]> list1, double[] oldValue)
+        {
+            if (list1[0] != oldValue)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static void CheckList(List<double[]> list)
+        {
+            for (int i = 1; i < list.Count; i++)
+            {
+                if (!CompareVerse(list[0], list[i]))
+                {
+                    Console.WriteLine("\n Find cycle but network does not stabilize!");
+                    Console.ReadKey();
+                    return;
                 }
             }
 
-            return returnValue;
+            Console.WriteLine("\nStable network!");
+            Console.ReadKey();
+            return;
         }
 
+
+        //Main
         static void Main(string[] args)
         {
 
-            double value;
-            value = (double)2 / (double)3;// problem z waga 2/3 i -2/3
+            double value = (double)2 / (double)3;// problem z waga 2/3 i -2/3
 
             double[,] weights = new double[3, 3];
             weights[0, 0] = 0;
@@ -71,14 +96,14 @@ namespace Task1
             weights[2, 2] = 0;
 
 
-            int[] xInput = new int[3];
+            double[] xInput = new double[3];
             for (int i = 0; i < 3; i++)//Dodawanie wektora z klawiatury
             {
                 Console.WriteLine("The value of the vector on the index: "+i);
                 string x = Console.ReadLine();
                 if (x=="1"||x=="-1")
                 {
-                    xInput[i] = Convert.ToInt32(x);
+                    xInput[i] = Convert.ToDouble(x);
                 }
                 else
                 {
@@ -86,29 +111,22 @@ namespace Task1
                     i--;
                 }
             }
-            List<int[]> listOutputX0 = new List<int[]>();//Aktualna lista
-            listOutputX0.Add(new int[] { 0, 0, 0 });
-            listOutputX0.Add(new int[] { 0, 0, 0 });
-            listOutputX0.Add(new int[] { 0, 0, 0 });
-            List<int[]> listOutputX1 = new List<int[]>();//Lista wektorow z poprzednich iteracji
-            listOutputX1.Add(new int[] { 0, 0, 0 });
-            listOutputX1.Add(new int[] { 0, 0, 0 });
-            listOutputX1.Add(new int[] { 0, 0, 0 });
+            List<double[]> listOutputX0 = new List<double[]>();//Aktualna lista
+            List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzednich iteracji
 
 
-            int index = 1;
-            int neuron = 0;
-            
+            int index = 0;
+            int indexGlobal = 1;
+
             while (true)
             {
-                Console.WriteLine("******Asynchronous step number: " + index + "*****************");
-                double [] matrix=matrixProduct(weights, xInput);
+                Console.WriteLine("******Asynchronous step number: " + indexGlobal + "*****************");
+                double [] matrix= MatrixTimesVector(weights, xInput);
 
-                if (index % 3 == 1)
+                if (index==0)
                 {
-                    neuron = 1;
                     Console.WriteLine("******Neuron 1.************************************");
-                    matrixDisplay(matrix, 3,  index);
+                    MatrixDisplay(matrix, indexGlobal);
                     if (matrix[0] > 0)
                     {
                         xInput[0] = 1;
@@ -118,11 +136,10 @@ namespace Task1
                         xInput[0] = -1;
                     }
                 }
-                else if (index%3==2)
+                else if (index==1)
                 {
-                    neuron = 2;
                     Console.WriteLine("******Neuron 2.************************************");
-                    matrixDisplay(matrix, 3,index);
+                    MatrixDisplay(matrix, indexGlobal);
                     if (matrix[1]>0)
                     {
                         xInput[1] = 1;
@@ -134,9 +151,8 @@ namespace Task1
                 }
                 else
                 {
-                    neuron = 3;
                     Console.WriteLine("******Neuron 3.************************************");
-                    matrixDisplay(matrix, 3, index);
+                    MatrixDisplay(matrix, indexGlobal);
                     if (matrix[2] > 0)
                     {
                         xInput[2] = 1;
@@ -146,27 +162,28 @@ namespace Task1
                         xInput[2] = -1;
                     }
                 }
-                listOutputX0[neuron-1]=(new int[] { xInput[0], xInput[1], xInput[2] });
+                listOutputX0.Add(new double[] { xInput[0], xInput[1], xInput[2] });
 
-                Console.WriteLine("x("+index+ ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
+                Console.WriteLine("x("+ indexGlobal + ")=[" + xInput[0] + "," + xInput[1]+","+xInput[2]+"]");
 
-                if (index > 3 && compareList(listOutputX0,listOutputX1))//Sprawdza czy sieć stabilizuje się
+                if (indexGlobal > 3  && CompareVerse(listOutputX0[index], listOutputX1[index]))
                 {
-                    Console.WriteLine("\nStable network!");
-                    Console.ReadKey();
+                    listOutputX1.AddRange(listOutputX0);
+                    listOutputX1.RemoveRange(0, index);
+                    CheckList(listOutputX1);
                     break;
-
                 }
-                else
-                {
-                    listOutputX1[neuron - 1] = (new int[] { xInput[0], xInput[1], xInput[2] });
-                }
-                if (index % 3 == 0)
-                {
 
+                index++;
+                indexGlobal++;
+                if (index==3)
+                {
+                    listOutputX1 = listOutputX0;
+                    listOutputX0 = new List<double[]>();
+                    index = 0;
                     Console.WriteLine("===================================================");
                 }
-                index++;
+
 
                 Console.ReadKey();
             }
