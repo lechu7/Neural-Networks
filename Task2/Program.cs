@@ -24,7 +24,6 @@ namespace Task2
             for (int i = 0; i < matrix1.Length; i++)
             {
                 sum += matrix1[i] * matrix2[i];
-
             }
             return sum;
         }
@@ -36,7 +35,6 @@ namespace Task2
             for (int i = 0; i < matrix1.Length; i++)
             {
                 sum[i] = matrix1[i] + matrix2[i];
-
             }
             return sum;
         }
@@ -124,12 +122,12 @@ namespace Task2
                     weights = new double[] { -0.12, 0.4, 0.65 };
                     break;
                 case "b":
-                    //ToDo
+                    weights = new double[] { 1, 1, 1 };
                     b = true;
-                break;
+                    break;
                 case "c":
                     ro = 1;
-                    weights = new double[] { 1,1, 1};
+                    weights = new double[] { 1, 1, 1 };
                     xor = true;
                     break;
                 default:
@@ -151,70 +149,119 @@ namespace Task2
             trains.Add(trainsX2);
             trains.Add(trainsX3);
             trains.Add(trainsX4);
+
             double dX1 = 0;
             double dX2 = 0;
             double dX3 = 1;
             double dX4 = 0;
-            if (xor==true)
+            if (xor == true)
             {
                 dX1 = 0;
                 dX2 = 1;
                 dX3 = 1;
                 dX4 = 0;
             }
-            List<double> d = new List<double> { dX1,dX2,dX3,dX4};//lista wartosci d
+            List<double> d = new List<double> { dX1, dX2, dX3, dX4 };//lista wartosci d
 
             List<double[]> listOutputX0 = new List<double[]>();//Aktualna lista
             List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzedniej iteracji
-            
 
-            double yn;
+            Console.WriteLine();
+            Console.WriteLine();
             int indexGlobal = 0;
-            int index = 0;
-            Console.WriteLine();
-            Console.WriteLine();
-            while (true)
+            if (!b)
             {
-                Console.WriteLine("*****Training vector: " + (index + 1) + ", iteration: " + (indexGlobal + 1) + "*****");
-                // obliczanie wartosci y dla n-tego elementu
-                yn = ScalarMultiplication(weights, trains[index]);
-                Console.WriteLine("y(" + indexGlobal + ")=" + yn);
-                if (yn > 0)
+                double yn;
+                int index = 0;
+                while (true)
                 {
-                    yn = 1;
-                }
-                else
-                {
-                    yn = 0;
-                }
+                    Console.WriteLine("*****Training vector: " + (index + 1) + ", iteration: " + (indexGlobal + 1) + "*****");
+                    // obliczanie wartosci y dla n-tego elementu
+                    yn = ScalarMultiplication(weights, trains[index]);
+                    Console.WriteLine("y(" + indexGlobal + ")=" + yn);
+                    if (yn > 0)
+                    {
+                        yn = 1;
+                    }
+                    else
+                    {
+                        yn = 0;
+                    }
 
-                //weights(x+1)=weights(x)+ro(d(x)-y(x))*x(x)
-                weights = MatrixAdd(MatrixMultiplierDouble((ro * (d[index] - yn)), trains[index] ), weights);
-                MatrixDisplay(weights, indexGlobal);
+                    //weights(x+1)=weights(x)+ro(d(x)-y(x))*x(x)
+                    weights = MatrixAdd(MatrixMultiplierDouble((ro * (d[index] - yn)), trains[index]), weights);
+                    MatrixDisplay(weights, indexGlobal);
 
-                listOutputX0.Add(new double[] { weights[0], weights[1], weights[2] });
-                
-                
-                if (indexGlobal >= 4 && CompareVerse( listOutputX0[index],listOutputX1[index]))
-                {
-                    listOutputX1.AddRange(listOutputX0);
-                    listOutputX1.RemoveRange(0, index);
-                    CheckList(listOutputX1);
-                    break;
-                }
+                    listOutputX0.Add(new double[] { weights[0], weights[1], weights[2] });
 
 
-                indexGlobal++;
-                index++;
-                if (index == 4)
-                {
-                    listOutputX1 = listOutputX0;
-                    listOutputX0 = new List<double[]>();
-                    index = 0;
-                    Console.WriteLine("===================================================");
+                    if (indexGlobal >= 4 && CompareVerse(listOutputX0[index], listOutputX1[index]))
+                    {
+                        listOutputX1.AddRange(listOutputX0);
+                        listOutputX1.RemoveRange(0, index);
+                        CheckList(listOutputX1);
+                        break;
+                    }
+
+
+                    indexGlobal++;
+                    index++;
+                    if (index == 4)
+                    {
+                        listOutputX1 = listOutputX0;
+                        listOutputX0 = new List<double[]>();
+                        index = 0;
+                        Console.WriteLine("===================================================");
+                    }
+                    Console.ReadKey();
                 }
-                Console.ReadKey();
+            }
+            //podpunkt b
+            else
+            {
+                List<double> y = new List<double>( new double[4]);//lista wartosci y
+                while (true)
+                {
+                    bool stable = true;
+                    for (int i = 0; i < d.Count; i++)
+                    {
+                        if (ScalarMultiplication(weights, trains[i])>0)
+                        {
+                            y[i] = 1;
+                        }
+                        else
+                        {
+                            y[i] = 0;
+                        }
+                    }
+                    for (int i = 0; i < d.Count; i++)
+                    {
+                        if (y[i] != d[i])
+                        {
+                            stable = false;
+                            if (d[i] == 1)
+                            {
+                                weights = MatrixAdd(weights, trains[i]);
+                            }
+                            else
+                            {
+                              weights=  MatrixAdd(weights, MatrixMultiplierDouble(-1, trains[i]));
+                            }
+                        }
+                    }
+                    indexGlobal++;
+                    MatrixDisplay(weights, indexGlobal);
+                    if (stable)
+                    {
+                        Console.WriteLine("Perceptron stable!");
+                        Console.ReadKey();
+                        break;
+                    }
+                    Console.ReadKey();
+                }
+
             }
         }
+
     }
 }
