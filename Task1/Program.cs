@@ -183,8 +183,7 @@ namespace Task1
                     index = 0;
                     Console.WriteLine("===================================================");
                 }
-
-
+                
                 Console.ReadKey();
             }
         }

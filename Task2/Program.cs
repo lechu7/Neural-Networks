@@ -28,7 +28,7 @@ namespace Task2
             return sum;
         }
 
-        public static double[] MatrixAdd(double[] matrix1, double[] matrix2)
+        public static double[] VectorsAdd(double[] matrix1, double[] matrix2)
         {
             //dodawanie macierzy
             double[] sum = new double[matrix1.Length];
@@ -38,20 +38,9 @@ namespace Task2
             }
             return sum;
         }
-
-        public static double[] MatrixAddDouble(double x, double[] matrix2)
-        {
-            //dodanie liczby do macierzy
-            double[] sum = new double[3];
-            for (int i = 0; i < 3; i++)
-            {
-                sum[i] = x + matrix2[i];
-
-            }
-            return sum;
-        }
         
-        public static double[] MatrixMultiplierDouble(double multipler, double[] matrix2)
+        
+        public static double[] VectorMultiplierDouble(double multipler, double[] matrix2)
         {
             //mnożenie macierzy przez liczbe
             double[] returnTable = new double[matrix2.Length];
@@ -189,7 +178,7 @@ namespace Task2
                     }
 
                     //weights(x+1)=weights(x)+ro(d(x)-y(x))*x(x)
-                    weights = MatrixAdd(MatrixMultiplierDouble((ro * (d[index] - yn)), trains[index]), weights);
+                    weights = VectorsAdd(VectorMultiplierDouble((ro * (d[index] - yn)), trains[index]), weights);
                     MatrixDisplay(weights, indexGlobal);
 
                     listOutputX0.Add(new double[] { weights[0], weights[1], weights[2] });
@@ -241,11 +230,11 @@ namespace Task2
                             stable = false;
                             if (d[i] == 1)
                             {
-                                weights = MatrixAdd(weights, trains[i]);
+                                weights = VectorsAdd(weights, trains[i]);
                             }
                             else
                             {
-                              weights=  MatrixAdd(weights, MatrixMultiplierDouble(-1, trains[i]));
+                              weights=  VectorsAdd(weights, VectorMultiplierDouble(-1, trains[i]));
                             }
                         }
                     }
