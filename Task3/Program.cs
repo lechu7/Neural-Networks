@@ -94,21 +94,82 @@ namespace Task3
             int indexGlobal = 0;
             int index = 0;
             List<double> listEnergy = new List<double>();
-            List<double> oldEnergy= new List<double>() { 0,0,0,0};
-            double teta = 2;
+            List<double> listOldEnergy= new List<double>() { 0,0,0,0};
+            double teta = 1;
+
+
+            //Wektory trenujące
+            double[] trainsX1 = new double[] { 1, 0, 0 };
+            double[] trainsX2 = new double[] { 1, 0, 1 };
+            double[] trainsX3 = new double[] { 1, 1, 0 };
+            double[] trainsX4 = new double[] { 1, 1, 1 };
+
+            List<double[]> trains = new List<double[]> { trainsX1, trainsX2, trainsX3, trainsX4 };//lista wektorow trenujacych
+
             if (totalEnergy)
             {
+                double energy = 0;
+                double oldEnergy = 0;
+                while (true)
+                {
 
+                    for (int i = 0; i < trains.Count; i++)
+                    {
+                        double X21 = Fi(weights[0, 0] * trains[i][0] + weights[0, 1] * trains[i][1] + weights[0, 2] * trains[i][2]); // potencjał na wyjsciu X2(1)
+                        double X22 = Fi(weights[1, 0] * trains[i][0] + weights[1, 1] * trains[i][1] + weights[1, 2] * trains[i][2]); // potencjał na wyjsciu X2(2)
+                        double X31 = Fi(weights[2, 0] * 1 + weights[2, 1] * X21 + weights[2, 2] * X22); // potencjał na wyjsciu X3(1)
+
+                        double ro31 = X31 * (1 - X31) * (d[i] - X31);
+                        double ro21 = X21 * (1 - X21) * weights[2, 1] * ro31;
+                        double ro22 = X22 * (1 - X22) * weights[2, 2] * ro31;
+
+                        double delta00 = teta * trains[i][0] * ro21;
+                        double delta01 = teta * trains[i][1] * ro21;
+                        double delta02 = teta * trains[i][2] * ro21;
+                        double delta10 = teta * trains[i][0] * ro22;
+                        double delta11 = teta * trains[i][1] * ro22;
+                        double delta12 = teta * trains[i][2] * ro22;
+                        double delta20 = teta * 1 * ro31;
+                        double delta21 = teta * X21 * ro31;
+                        double delta22 = teta * X22 * ro31;
+
+                        deltaWeights[0, 0] += delta00;
+                        deltaWeights[0, 1] += delta01;
+                        deltaWeights[0, 2] += delta02;
+                        deltaWeights[1, 0] += delta10;
+                        deltaWeights[1, 1] += delta11;
+                        deltaWeights[1, 2] += delta12;
+                        deltaWeights[2, 0] += delta20;
+                        deltaWeights[2, 1] += delta21;
+                        deltaWeights[2, 2] += delta22;
+
+                        energy += Math.Pow((d[i] - X31), 2);
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine("Energy: " + energy);
+                    weights = MatrixAdd(weights, deltaWeights);
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    indexGlobal++;
+                    MatrixDisplay(weights, indexGlobal);
+                    if (oldEnergy - energy < 0.001 && oldEnergy - energy > 0 && energy<0.51)
+                    {
+                        Console.WriteLine("Algorythm is stable");
+                        break;
+                    }
+                    else
+                    {
+                        oldEnergy = energy;
+                    }
+                    energy = 0;
+                }
+
+                Console.ReadKey();
             }
             else
             {
-                //Wektory trenujące
-                double[] trainsX1 = new double[] { 1, 0, 0 };
-                double[] trainsX2 = new double[] { 1, 0, 1 };
-                double[] trainsX3 = new double[] { 1, 1, 0 };
-                double[] trainsX4 = new double[] { 1, 1, 1 };
-
-                List<double[]> trains = new List<double[]>{trainsX1, trainsX2, trainsX3,trainsX4 };//lista wektorow trenujacych
 
                 while (true)
                 {
@@ -157,7 +218,7 @@ namespace Task3
                         bool stable = true;
                         for (int i = 0; i < listEnergy.Count; i++)
                         {
-                            if (oldEnergy[i] - listEnergy[i] < 0.01 && oldEnergy[i] - listEnergy[i] > 0 && listEnergy[i]<0.1)
+                            if (listOldEnergy[i] - listEnergy[i] < 0.01 && listOldEnergy[i] - listEnergy[i] > 0 && listEnergy[i]<0.1)
                             { }
                             else
                             {
@@ -172,7 +233,7 @@ namespace Task3
                         }
                         else
                         {
-                            oldEnergy = listEnergy;
+                            listOldEnergy = listEnergy;
                             listEnergy = new List<double>();
                         }
                     }
