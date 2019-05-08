@@ -10,10 +10,16 @@ namespace Task1
     {
         public static void MatrixDisplay(double[] matrix, int U)
         {
-            Console.WriteLine("w(" + U + ")=");
             for (int i = 0; i < matrix.Length; i++)
             {
-                Console.Write("\t" + matrix[i].ToString() + " ");
+                if (i == 1)
+                {
+                    Console.Write("U(" + U + ") =  " + matrix[i].ToString());
+                }
+                else
+                {
+                    Console.Write("\t" + matrix[i].ToString() + " ");
+                }
                 Console.WriteLine();
             }
         }
@@ -80,7 +86,7 @@ namespace Task1
         static void Main(string[] args)
         {
 
-            double value = (double)2 / (double)3;// problem z waga 2/3 i -2/3
+            double value = (double)2 / (double)3;
 
             double[,] weights = new double[3, 3];
             weights[0, 0] = 0;
@@ -112,7 +118,7 @@ namespace Task1
                 }
             }
             List<double[]> listOutputX0 = new List<double[]>();//Aktualna lista
-            List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzednich iteracji
+            List<double[]> listOutputX1 = new List<double[]>();//Lista wektorow z poprzedniej iteracji
 
 
             int index = 0;
