@@ -156,7 +156,7 @@ namespace Task3
                     MatrixDisplay(weights, indexGlobal);
                     if (oldEnergy - energy < 0.001 && oldEnergy - energy > 0 && energy<0.51)
                     {
-                        Console.WriteLine("Algorythm is stable");
+                        Console.WriteLine("\nAlgorythm is stable.");
                         break;
                     }
                     else
@@ -228,7 +228,7 @@ namespace Task3
                         }
                         if (stable)
                         {
-                            Console.WriteLine("Algorythm is stable");
+                            Console.WriteLine("\nAlgorythm is stable.");
                             break;
                         }
                         else

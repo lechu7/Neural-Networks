@@ -55,22 +55,13 @@ namespace Task1
             return true;
         }
 
-        public static bool FindCycle(List<double[]> list1, double[] oldValue)
-        {
-            if (list1[0] != oldValue)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public static void CheckList(List<double[]> list)
         {
             for (int i = 1; i < list.Count; i++)
             {
                 if (!CompareVerse(list[0], list[i]))
                 {
-                    Console.WriteLine("\n Find cycle but network does not stabilize!");
+                    Console.WriteLine("\nFind cycle but network does not stabilize!");
                     Console.ReadKey();
                     return;
                 }

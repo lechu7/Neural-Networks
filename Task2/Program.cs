@@ -80,15 +80,6 @@ namespace Task2
             return true;
         }
 
-        public static bool FindCycle(List<double[]> list1, double[] oldValue)
-        {
-            if (list1[0] != oldValue)
-            {
-                return false;
-            }
-            return true;
-        }
-
         //Main 
 
         static void Main(string[] args)
